@@ -16,10 +16,14 @@ jobs:
           python train.py
 
 
-          echo "MODEL METRICS"
-          cat metrics.txt
-          
-          
           # Write your CML report
-          #cat results.txt >> report.md
-          #cml-send-comment report.md
+          echo "## Model metrics" > report.md
+          cat metrics.txt >> report.md
+          
+          # add images, --md for markdown formatting
+          echo "## Data viz" >> report.md       #header
+          cml-publish feature_importance.png --md >> report.md
+          cml-publish residuals.png --md >> report.md
+          
+          # publish report
+          cml-send-comment report.md
